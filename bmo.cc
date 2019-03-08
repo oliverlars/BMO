@@ -2,6 +2,9 @@
 extern "C"{
 #include "pdfgen.h"
 }
+#include "bmo.h"
+#include "bmo_parser.cc"
+
 
 int main(){
     printf("Hello, world!");
@@ -18,7 +21,7 @@ int main(){
     pdf_append_page(pdf);
     pdf_add_text(pdf, NULL, "Oliver Cruickshank", 24, 0, PDF_A4_HEIGHT-24, PDF_BLACK);
     pdf_add_line(pdf, NULL, 50, 24, 150, 24, 3, PDF_BLACK);
-    pdf_save(pdf, "asdfasdfdsa.pdf");
+    pdf_save(pdf, "output.pdf");
     pdf_destroy(pdf);
     return 0;
 }

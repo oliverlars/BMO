@@ -31,4 +31,3 @@
 @lld-link.exe  /debug "bmo.o" /OUT:"bmo.exe" %LinkFlags% %LinkLibs% 
 
 del *.o
-*.swp
