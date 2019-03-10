@@ -1,0 +1,79 @@
+%PDF-1.2
+%«Ïè¢
+1 0 obj
+<<
+  /Creator (pdfgen)
+  /Producer (pdfgen)
+  /Title (My document)
+  /Author (pdfgen)
+  /Subject (comp)
+  /CreationDate (D:Today)
+>>
+endobj
+2 0 obj
+<<
+/Type /Pages
+/Kids [ 5 0 R ]
+/Count 1
+>>
+endobj
+3 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+4 0 obj
+<<
+  /Type /Font
+  /Subtype /Type1
+  /BaseFont /Times-Roman
+  /Encoding /WinAnsiEncoding
+>>
+endobj
+5 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 595 842]
+/Resources <<
+  /Font <<
+    /F1 4 0 R
+  >>
+>>
+/Contents [
+6 0 R
+7 0 R
+]
+>>
+endobj
+6 0 obj
+<< /Length 85 >>stream
+BT 19 200 TD /F1 20 Tf 0.000000 0.000000 0.000000 rg 0.000000 Tc (Hello World.) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Length 87 >>stream
+BT 4 200 TD /F1 10 Tf 0.000000 0.000000 0.000000 rg 0.000000 Tc (Doggo the world) Tj ET
+endstream
+endobj
+xref
+0 8
+0000000000 65535 f
+0000000017 00000 n
+0000000175 00000 n
+0000000241 00000 n
+0000000296 00000 n
+0000000411 00000 n
+0000000571 00000 n
+0000000710 00000 n
+trailer
+<<
+/Size 8
+/Root 3 0 R
+/Info 1 0 R
+/ID [<0000000000000123> <0000000000000123>]
+>>
+startxref
+851
+%%EOF
