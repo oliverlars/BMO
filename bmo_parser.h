@@ -125,6 +125,11 @@ void parse_identifier(Lexer* l, Token token){
             }else if(match_token(arg, "centre")){
             }
         }
+    }
+    else if(match_token(token, "right")){
+        l->state.align = PDF_ALIGN_RIGHT;
+    }else if (match_token(token, "left")){
+        l->state.align = PDF_ALIGN_LEFT;
     }else if(match_token(token, "para")){
         
         int prev_font = l->doc.font_size;
@@ -142,10 +147,14 @@ void parse_identifier(Lexer* l, Token token){
                                            l->state.line_pos - font,
                                            PDF_BLACK,
                                            l->doc.width - 2*l->doc.margin_size,
-                                           PDF_ALIGN_LEFT
+                                           l->state.align
                                            );
         //l->state.line_pos -= get_new_linepos(l->doc, temp_str.data);
-        l->state.line_pos -= new_height;
+        if(!l->state.is_ghost){
+            l->state.line_pos -= new_height;
+        }else{
+            l->state.is_ghost = false;
+        }
         temp_str.reset();
         pdf_set_font(l->doc.pdf, "Times-Roman");
     }else if(match_token(token, "margins")){
@@ -154,6 +163,9 @@ void parse_identifier(Lexer* l, Token token){
     }else if(match_token(token, "font")){
         Token number = require_token(l, TOKEN_NUMBER);
         l->doc.font_size = str_to_int(number.str);
+    }
+    else if(match_token(token, "ghost")){
+        l->state.is_ghost = true;
     }
     else if(match_token(token, "line")){
         int lwidth = 1;

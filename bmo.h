@@ -11,8 +11,11 @@ struct Text{
     bool is_para;
 };
 
+
 struct State{
     int line_pos = 0;
+    bool is_ghost = false;
+    int align;
 };
 
 struct Doc {
