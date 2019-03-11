@@ -70,7 +70,9 @@ int get_new_linepos(Doc doc, char* text){
 
 void parse_identifier(Lexer* l, Token token){
     
-    if(match_token(token, "title")){
+    if(match_token(token, "bold")){
+        pdf_set_font(l->doc.pdf, "Times-Bold");
+    }else if(match_token(token, "title")){
         Token arg = l->peek_token();
         if(is_arg(arg)){
             l->get_token();
@@ -80,6 +82,8 @@ void parse_identifier(Lexer* l, Token token){
                 if(is_arg(arg)){
                     l->doc.font_size = str_to_int(arg.str);
                     l->get_token();
+                    arg = l->peek_token();
+                    
                 }
                 int font = l->doc.font_size;
                 Token block = l->get_token();
@@ -100,6 +104,7 @@ void parse_identifier(Lexer* l, Token token){
                 if(is_arg(arg)){
                     l->doc.font_size = str_to_int(arg.str);
                     l->get_token();
+                    arg = l->peek_token();
                 }
                 int font = l->doc.font_size;
                 Token block = l->get_token();
@@ -114,6 +119,7 @@ void parse_identifier(Lexer* l, Token token){
                                   );
                 l->state.line_pos -= get_new_linepos(l->doc, temp_str.data);
                 temp_str.reset();
+                pdf_set_font(l->doc.pdf, "Times-Roman");
             }else if(match_token(arg, "centre")){
             }
         }
@@ -138,6 +144,7 @@ void parse_identifier(Lexer* l, Token token){
                           );
         l->state.line_pos -= get_new_linepos(l->doc, temp_str.data);
         temp_str.reset();
+        pdf_set_font(l->doc.pdf, "Times-Roman");
     }else if(match_token(token, "margins")){
         Token number = require_token(l, TOKEN_NUMBER);
         l->doc.margin_size = str_to_int(number.str);
@@ -149,10 +156,10 @@ void parse_identifier(Lexer* l, Token token){
         int lwidth = 1;
         pdf_add_line(l->doc.pdf, NULL, 
                      l->doc.margin_size, 
-                     l->state.line_pos - lwidth,
+                     l->state.line_pos - lwidth*3,
                      l->doc.width - l->doc.margin_size, 
-                     l->state.line_pos - lwidth,
+                     l->state.line_pos - lwidth*3,
                      lwidth, PDF_BLACK);
-        l->state.line_pos -= lwidth;
+        l->state.line_pos -= lwidth*3;
     }
 }

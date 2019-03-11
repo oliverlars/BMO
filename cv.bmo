@@ -4,7 +4,8 @@
 "Oliver Cruickshank"
 .title right 20
 "Curriculum Vitae"
-.title left 20
+.bold
+.title left 20 
 "Personal Details"
 .line
 .para 12
@@ -14,5 +15,9 @@ Phone:             (+44) 07472007901
 Email:             oliverlcruickshank@gmail.com
 Github:            www.github.com/oliverlars
 "
+.bold
+.title left 20
+"Education"
+.line
 .para 12
-"this will not work"
+"Big"
