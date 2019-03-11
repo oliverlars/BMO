@@ -2,7 +2,7 @@
 .margins 50
 .title right 30
 "Oliver Cruickshank"
-.title right 20
+.title right 50
 "Curriculum Vitae"
 .bold
 .title left 20 
@@ -13,11 +13,27 @@
 Address:           39 St. Bartholomews Court Riverside, Cambridge
 Phone:             (+44) 07472007901
 Email:             oliverlcruickshank@gmail.com
-Github:            www.github.com/oliverlars
-"
+Github:            www.github.com/oliverlars"
 .bold
 .title left 20
 "Education"
 .line
 .para 12
-"Big"
+"Degree: University of York: Computer Science 2018 - 2021 A levels: Hills Road Sixth Form Centre 2016-2018
+Achieved grades: Maths B, Physics B, Computing B, Extended Project B
+GCSE: St Bede's Inter-Church School 2011-2016
+Achieved grades: Maths A, Physics A, Computing A, Chemistry A, Biology A,
+Geography A, English Lang A, English Lit A, Art & Design A, Religious Studies B"
+.bold
+.title left 20
+"Work Experience"
+.line
+.para 12
+"ggfg"
+.bold
+.title left 20
+"PROJECTS"
+.line
+.para 12
+"This CV was written in my own typesetter, called BMO."
+

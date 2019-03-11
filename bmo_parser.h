@@ -51,18 +51,19 @@ void string_to_cstr(String str){
 int get_new_linepos(Doc doc, char* text){
     int width = pdf_get_font_text_width(doc.pdf, doc.font_name, text, doc.font_size);
     char* pos = text;
-    int offset = 0;
+    int offset = 1;
+    int wrap_increment = 0;
     while(pos && *pos){
-        if(pos[0] == '\n'){
+        if(is_newline(pos[0])){
             offset += 1;
         }
         pos++;
-        
     }
+    int height = (width / (doc.width - 2*doc.margin_size));
     if(offset){
-        return (offset)*doc.font_size;
+        return (height+ offset)*doc.font_size;
     }else{
-        return ((width / (doc.width - 2*doc.margin_size)) + 1)*doc.font_size;
+        return (height + 1)*doc.font_size;
     }
 }
 
@@ -83,20 +84,20 @@ void parse_identifier(Lexer* l, Token token){
                     l->doc.font_size = str_to_int(arg.str);
                     l->get_token();
                     arg = l->peek_token();
-                    
                 }
                 int font = l->doc.font_size;
                 Token block = l->get_token();
                 string_to_cstr(block.str);
-                pdf_add_text_wrap(l->doc.pdf, NULL, temp_str.data,
-                                  l->doc.font_size,
-                                  l->doc.margin_size,
-                                  l->state.line_pos - font,
-                                  PDF_BLACK,
-                                  l->doc.width - 2*l->doc.margin_size,
-                                  PDF_ALIGN_RIGHT
-                                  );
-                l->state.line_pos -= get_new_linepos(l->doc, temp_str.data);
+                int new_height = pdf_add_text_wrap(l->doc.pdf, NULL, temp_str.data,
+                                                   l->doc.font_size,
+                                                   l->doc.margin_size,
+                                                   l->state.line_pos -font,
+                                                   PDF_BLACK,
+                                                   l->doc.width - 2*l->doc.margin_size,
+                                                   PDF_ALIGN_RIGHT
+                                                   );
+                //l->state.line_pos -= get_new_linepos(l->doc, temp_str.data);
+                l->state.line_pos -= new_height;
                 temp_str.reset();
             }else if(match_token(arg, "left")){
                 arg = l->peek_token();
@@ -109,15 +110,16 @@ void parse_identifier(Lexer* l, Token token){
                 int font = l->doc.font_size;
                 Token block = l->get_token();
                 string_to_cstr(block.str);
-                pdf_add_text_wrap(l->doc.pdf, NULL, temp_str.data,
-                                  l->doc.font_size,
-                                  l->doc.margin_size,
-                                  l->state.line_pos - font,
-                                  PDF_BLACK,
-                                  l->doc.width - 2*l->doc.margin_size,
-                                  PDF_ALIGN_LEFT
-                                  );
-                l->state.line_pos -= get_new_linepos(l->doc, temp_str.data);
+                int new_height = pdf_add_text_wrap(l->doc.pdf, NULL, temp_str.data,
+                                                   l->doc.font_size,
+                                                   l->doc.margin_size,
+                                                   l->state.line_pos - font,
+                                                   PDF_BLACK,
+                                                   l->doc.width - 2*l->doc.margin_size,
+                                                   PDF_ALIGN_LEFT
+                                                   );
+                //l->state.line_pos -= get_new_linepos(l->doc, temp_str.data);
+                l->state.line_pos -= new_height;
                 temp_str.reset();
                 pdf_set_font(l->doc.pdf, "Times-Roman");
             }else if(match_token(arg, "centre")){
@@ -134,15 +136,16 @@ void parse_identifier(Lexer* l, Token token){
         int font = l->doc.font_size;
         Token block = l->get_token();
         string_to_cstr(block.str);
-        pdf_add_text_wrap(l->doc.pdf, NULL, temp_str.data,
-                          l->doc.font_size,
-                          l->doc.margin_size,
-                          l->state.line_pos - font,
-                          PDF_BLACK,
-                          l->doc.width - 2*l->doc.margin_size,
-                          PDF_ALIGN_LEFT
-                          );
-        l->state.line_pos -= get_new_linepos(l->doc, temp_str.data);
+        int new_height = pdf_add_text_wrap(l->doc.pdf, NULL, temp_str.data,
+                                           l->doc.font_size,
+                                           l->doc.margin_size,
+                                           l->state.line_pos - font,
+                                           PDF_BLACK,
+                                           l->doc.width - 2*l->doc.margin_size,
+                                           PDF_ALIGN_LEFT
+                                           );
+        //l->state.line_pos -= get_new_linepos(l->doc, temp_str.data);
+        l->state.line_pos -= new_height;
         temp_str.reset();
         pdf_set_font(l->doc.pdf, "Times-Roman");
     }else if(match_token(token, "margins")){
@@ -154,12 +157,14 @@ void parse_identifier(Lexer* l, Token token){
     }
     else if(match_token(token, "line")){
         int lwidth = 1;
+        l->state.line_pos -= lwidth*3;
         pdf_add_line(l->doc.pdf, NULL, 
                      l->doc.margin_size, 
-                     l->state.line_pos - lwidth*3,
+                     l->state.line_pos,
                      l->doc.width - l->doc.margin_size, 
-                     l->state.line_pos - lwidth*3,
+                     l->state.line_pos,
                      lwidth, PDF_BLACK);
         l->state.line_pos -= lwidth*3;
     }
+    printf("\nLINEPOS: %d\n", l->state.line_pos);
 }
