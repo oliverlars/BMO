@@ -9,6 +9,7 @@ enum KW_Type: int{
 enum Token_Type: int{
     TOKEN_INVALID,
     TOKEN_FULLSTOP,
+    TOKEN_BACKSLASH,
     TOKEN_ID,
     TOKEN_NUMBER,
     TOKEN_STRING,

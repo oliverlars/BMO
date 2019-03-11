@@ -12,13 +12,16 @@ struct Text{
 };
 
 struct State{
-    int line_pos;
+    int line_pos = 0;
 };
 
 struct Doc {
     pdf_doc* pdf;
     int margin_size;
+    char* font_name;
+    float aspect;
     int font_size;
+    bool is_bold;
     int width;
     int height;
 };

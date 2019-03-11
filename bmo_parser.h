@@ -48,56 +48,111 @@ void string_to_cstr(String str){
 }
 
 
+int get_new_linepos(Doc doc, char* text){
+    int width = pdf_get_font_text_width(doc.pdf, doc.font_name, text, doc.font_size);
+    char* pos = text;
+    int offset = 0;
+    while(pos && *pos){
+        if(pos[0] == '\n'){
+            offset += 1;
+        }
+        pos++;
+        
+    }
+    if(offset){
+        return (offset)*doc.font_size;
+    }else{
+        return ((width / (doc.width - 2*doc.margin_size)) + 1)*doc.font_size;
+    }
+}
+
+
+
 void parse_identifier(Lexer* l, Token token){
+    
     if(match_token(token, "title")){
         Token arg = l->peek_token();
         if(is_arg(arg)){
             l->get_token();
             if(match_token(arg, "right")){
                 arg = l->peek_token();
+                int prev_font = l->doc.font_size;
                 if(is_arg(arg)){
                     l->doc.font_size = str_to_int(arg.str);
                     l->get_token();
                 }
+                int font = l->doc.font_size;
                 Token block = l->get_token();
                 string_to_cstr(block.str);
                 pdf_add_text_wrap(l->doc.pdf, NULL, temp_str.data,
                                   l->doc.font_size,
                                   l->doc.margin_size,
-                                  200,
+                                  l->state.line_pos - font,
                                   PDF_BLACK,
-                                  120,
+                                  l->doc.width - 2*l->doc.margin_size,
                                   PDF_ALIGN_RIGHT
                                   );
+                l->state.line_pos -= get_new_linepos(l->doc, temp_str.data);
                 temp_str.reset();
             }else if(match_token(arg, "left")){
-                printf("yaboy");
                 arg = l->peek_token();
+                int prev_font = l->doc.font_size;
                 if(is_arg(arg)){
                     l->doc.font_size = str_to_int(arg.str);
                     l->get_token();
                 }
+                int font = l->doc.font_size;
                 Token block = l->get_token();
                 string_to_cstr(block.str);
                 pdf_add_text_wrap(l->doc.pdf, NULL, temp_str.data,
                                   l->doc.font_size,
                                   l->doc.margin_size,
-                                  200,
+                                  l->state.line_pos - font,
                                   PDF_BLACK,
-                                  120,
+                                  l->doc.width - 2*l->doc.margin_size,
                                   PDF_ALIGN_LEFT
                                   );
+                l->state.line_pos -= get_new_linepos(l->doc, temp_str.data);
                 temp_str.reset();
             }else if(match_token(arg, "centre")){
             }
         }
     }else if(match_token(token, "para")){
-        l->get_token();
+        
+        int prev_font = l->doc.font_size;
+        Token arg = l->peek_token();
+        if(is_arg(arg)){
+            l->doc.font_size = str_to_int(arg.str);
+            l->get_token();
+        }
+        int font = l->doc.font_size;
+        Token block = l->get_token();
+        string_to_cstr(block.str);
+        pdf_add_text_wrap(l->doc.pdf, NULL, temp_str.data,
+                          l->doc.font_size,
+                          l->doc.margin_size,
+                          l->state.line_pos - font,
+                          PDF_BLACK,
+                          l->doc.width - 2*l->doc.margin_size,
+                          PDF_ALIGN_LEFT
+                          );
+        l->state.line_pos -= get_new_linepos(l->doc, temp_str.data);
+        temp_str.reset();
     }else if(match_token(token, "margins")){
         Token number = require_token(l, TOKEN_NUMBER);
         l->doc.margin_size = str_to_int(number.str);
     }else if(match_token(token, "font")){
         Token number = require_token(l, TOKEN_NUMBER);
         l->doc.font_size = str_to_int(number.str);
+    }
+    else if(match_token(token, "line")){
+        int lwidth = 1;
+        pdf_add_line(l->doc.pdf, NULL, 
+                     l->doc.margin_size, 
+                     l->state.line_pos - lwidth,
+                     l->doc.width - l->doc.margin_size, 
+                     l->state.line_pos - lwidth,
+                     lwidth, PDF_BLACK);
+        l->state.line_pos -= lwidth;
     }
 }

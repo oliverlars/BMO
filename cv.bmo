@@ -1,0 +1,18 @@
+.font 14
+.margins 50
+.title right 30
+"Oliver Cruickshank"
+.title right 20
+"Curriculum Vitae"
+.title left 20
+"Personal Details"
+.line
+.para 12
+"Birthdate:        December 11th 1999
+Address:           39 St. Bartholomews Court Riverside, Cambridge
+Phone:             (+44) 07472007901
+Email:             oliverlcruickshank@gmail.com
+Github:            www.github.com/oliverlars
+"
+.para 12
+"this will not work"
