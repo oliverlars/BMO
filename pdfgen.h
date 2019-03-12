@@ -106,7 +106,7 @@ struct pdf_info {
  * in PDFGen
  */
 #define PDF_RGB(r, g, b)                                                     \
-    ((((r)&0xff) << 16) | (((g)&0xff) << 8) | (((b)&0xff)))
+((((r)&0xff) << 16) | (((g)&0xff) << 8) | (((b)&0xff)))
 
 /**
  * Utility macro to provide bright red
@@ -145,7 +145,7 @@ enum {
     PDF_ALIGN_CENTER,
     PDF_ALIGN_JUSTIFY,
     PDF_ALIGN_JUSTIFY_ALL, // Like PDF_ALIGN_JUSTIFY, except even short lines
-                           // will be fully justified
+    // will be fully justified
 };
 
 /**
@@ -276,7 +276,7 @@ int pdf_add_text(struct pdf_doc *pdf, struct pdf_object *page,
  * @return height of drawn text on success, < 0 on failure
  */
 int pdf_add_text_wrap(struct pdf_doc *pdf, struct pdf_object *page,
-                      const char *text, int size, int xoff, int yoff,
+                      const char *text, int len, int size, int xoff, int yoff,
                       uint32_t colour, int wrap_width, int align);
 
 /**

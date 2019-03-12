@@ -13,25 +13,28 @@
 Address:           39 St. Bartholomews Court Riverside, Cambridge
 Phone:             (+44) 07472007901
 Email:             oliverlcruickshank@gmail.com
-Github:            www.github.com/oliverlars"
-.bold
-.title left 20
+Github:            www.github.com/oliverlars
+"
+.bold.title left 20
 "EDUCATION"
 .line
 .left.ghost.bold.para 12
 "Degree: University of York: Computer Science"
 .right.para 12
 "2018 - 2021"
-.left.para 12
-"A levels: Hills Road Sixth Form Centre 2016-2018 Achieved grades: Maths B, Physics B, Computing B, Extended Project B
+.ghost.left.para 12
+"A levels: Hills Road Sixth Form Centre"
+.right .para 12
+"2016-2018"
+.left .para 12
+"Achieved grades: Maths B, Physics B, Computing B, Extended Project B
 "
 .ghost.bold.para 12
 "GCSE: St Bede's Inter-Church School" 
 .right.para 12
 "2011-2016"
 .left.para 12
-"Achieved grades: Maths A, Physics A, Computing A, Chemistry A, Biology A,
-Geography A, English Lang A, English Lit A, Art & Design A, Religious Studies B
+"Achieved grades: A A A A A A A A A B
 "
 .bold
 .title left 20
@@ -47,35 +50,44 @@ getting an introduction to industry software engineering
 .title left 20
 "PROJECTS"
 .line
-.bold .para 12
-"Fast Embree based Pathtracer 2018"
-.para 12
+.ghost.bold .para 12
+"Fast Embree based Pathtracer"
+.right.para 12
+"2018"
+.left.para 12
 "Using Intel's Embree framework for high performance ray intersection tests to make a
 pathtracer. I wrote a simple threadpool to do tile-based rendering, a fast OBJ loader as well
 as progressive rendering using Win32
 "
-.bold .para 12
+.ghost.bold .para 12
 "BMO, a language to typeset documents"
-.para 12
+.right.para 12
+"2019"
+.left.para 12
 "I designed and built a language for typesetting documents for reports and documents. It is similar to groff, producing PDFs as output that are nicely formatted. This CV was written in BMO
 "
-.bold .para 12
-"Pathracer from scratch for my Computer Science coursework 2017"
-.para 12
+.ghost.bold .para 12
+"Pathracer from scratch for my Computer Science coursework" 
+.right.para 12
+"2017"
+.left.para 12
 "I wrote a pathtracer from scratch which used a KD-tree for fast search for possible triangle
 intersections among common features like depth of field, interpolated normals, and textures
 "
-.bold .para 12
-"Metaprogramming Tool for C 2018"
-.para 12
+.ghost.bold .para 12
+"Metaprogramming Tool for C"
+.right.para 12
+"2018"
+.left.para 12
 "I wanted some new features for C, without having to use macros so I made a tool to add the
 'defer' keyword like Go has. It uses the recursive descent parsing method.
 "
-.bold .para 12
-"Interpreted Assembler 2018"
-.para 12
-"A simple interpreted assembler to run basic assembly instructions found in my
-A-Level specification
+.ghost.bold .para 12
+"Picoblaze 6 JIT compiler and virtual machine"
+.right.para 12
+"2019"
+.left.para 12
+"The Picoblaze is a soft-core CPU designed to run on Xilinx FPGAs. I wrote a compiler that generates bytecode according to their specification and then implemented a virtual machine that runs the bytecode
 "
 .bold
 .title left 20 
@@ -84,7 +96,7 @@ A-Level specification
 .ghost.bold.para 12
 "Languages"
 .right.para 12
-" C, C++, Delphi, Rust, Python
+"C, C++, Delphi, Rust, Python
 "
 .ghost.left.bold.para 12
 "Technologies"

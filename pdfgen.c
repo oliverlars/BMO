@@ -1444,17 +1444,17 @@ int pdf_get_font_text_width(struct pdf_doc *pdf, const char *font_name,
     return pdf_text_pixel_width(pdf, text, -1, size, widths);
 }
 
-static const char *find_word_break(const char *string)
+static const char *find_word_break(const char *string,const char* last)
 {
     /* Skip over the actual word */
-    while (string && *string && !isspace(*string))
+    while (string < last && !isspace(*string)){
         string++;
-    
+    }
     return string;
 }
 
 int pdf_add_text_wrap(struct pdf_doc *pdf, struct pdf_object *page,
-                      const char *text, int size, int xoff, int yoff,
+                      const char *text, int strlen, int size, int xoff, int yoff,
                       uint32_t colour, int wrap_width, int align)
 {
     /* Move through the text string, stopping at word boundaries,
@@ -1463,6 +1463,7 @@ int pdf_add_text_wrap(struct pdf_doc *pdf, struct pdf_object *page,
     const char *start = text;
     const char *last_best = text;
     const char *end = text;
+    const char* last = text + strlen;
     char line[512];
     const uint16_t *widths;
     int orig_yoff = yoff;
@@ -1473,8 +1474,9 @@ int pdf_add_text_wrap(struct pdf_doc *pdf, struct pdf_object *page,
                            "Unable to determine width for font '%s'",
                            pdf->current_font->font.name);
     
-    while (start && *start) {
-        const char *new_end = find_word_break(end + 1);
+    int pos = 0;
+    while (pos < strlen) {
+        const char *new_end = find_word_break(end+1, last);
         int line_width;
         int output = 0;
         int xoff_align = xoff;
@@ -1504,10 +1506,8 @@ int pdf_add_text_wrap(struct pdf_doc *pdf, struct pdf_object *page,
                 end = last_best;
             output = 1;
         }
-        if (*end == '\0')
-            output = 1;
         
-        if (*end == '\n' || *end == '\r')
+        if (*end == '\n' || *end == '\r' || end == last)
             output = 1;
         
         if (output) {
@@ -1549,9 +1549,11 @@ int pdf_add_text_wrap(struct pdf_doc *pdf, struct pdf_object *page,
                 end++;
             
             start = last_best = end;
+            pos = start - text;
             yoff -= size;
-        } else
+        } else{
             last_best = end;
+        }
     }
     
     return orig_yoff - yoff;

@@ -88,7 +88,7 @@ void parse_identifier(Lexer* l, Token token){
                 int font = l->doc.font_size;
                 Token block = l->get_token();
                 string_to_cstr(block.str);
-                int new_height = pdf_add_text_wrap(l->doc.pdf, NULL, temp_str.data,
+                int new_height = pdf_add_text_wrap(l->doc.pdf, NULL, block.str.text, block.str.len, 
                                                    l->doc.font_size,
                                                    l->doc.margin_size,
                                                    l->state.line_pos -font,
@@ -96,7 +96,6 @@ void parse_identifier(Lexer* l, Token token){
                                                    l->doc.width - 2*l->doc.margin_size,
                                                    PDF_ALIGN_RIGHT
                                                    );
-                //l->state.line_pos -= get_new_linepos(l->doc, temp_str.data);
                 l->state.line_pos -= new_height;
                 temp_str.reset();
             }else if(match_token(arg, "left")){
@@ -110,7 +109,7 @@ void parse_identifier(Lexer* l, Token token){
                 int font = l->doc.font_size;
                 Token block = l->get_token();
                 string_to_cstr(block.str);
-                int new_height = pdf_add_text_wrap(l->doc.pdf, NULL, temp_str.data,
+                int new_height = pdf_add_text_wrap(l->doc.pdf, NULL, block.str.text, block.str.len,
                                                    l->doc.font_size,
                                                    l->doc.margin_size,
                                                    l->state.line_pos - font,
@@ -118,7 +117,6 @@ void parse_identifier(Lexer* l, Token token){
                                                    l->doc.width - 2*l->doc.margin_size,
                                                    PDF_ALIGN_LEFT
                                                    );
-                //l->state.line_pos -= get_new_linepos(l->doc, temp_str.data);
                 l->state.line_pos -= new_height;
                 temp_str.reset();
                 pdf_set_font(l->doc.pdf, "Times-Roman");
@@ -141,7 +139,7 @@ void parse_identifier(Lexer* l, Token token){
         int font = l->doc.font_size;
         Token block = l->get_token();
         string_to_cstr(block.str);
-        int new_height = pdf_add_text_wrap(l->doc.pdf, NULL, temp_str.data,
+        int new_height = pdf_add_text_wrap(l->doc.pdf, NULL, block.str.text, block.str.len,
                                            l->doc.font_size,
                                            l->doc.margin_size,
                                            l->state.line_pos - font,
