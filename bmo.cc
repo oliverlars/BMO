@@ -60,6 +60,13 @@ int main(int argc, char** args){
     printf("height %d\n", l.state.line_pos);
     pdf_set_font(l.doc.pdf,l.doc.font_name);
     pdf_append_page(l.doc.pdf);
+    
+    int font_size = 12;
+    int is_bold = false;
+    char* font_name = "Times-Roman";
+    int align = PDF_ALIGN_LEFT;
+    int is_ghost = false;
+    
     while(parsing){
         Token token = l.get_token();
         switch(token.type){
@@ -75,7 +82,16 @@ int main(int argc, char** args){
             case TOKEN_ID:{
             }break;
             case TOKEN_STRING:{
-                printstr(token.str);
+                if(l.state.is_ghost){
+                    l.state.is_ghost = false;
+                    format_and_render(l.doc, l.state, token.str);
+                }else{
+                    l.state.line_pos -= format_and_render(l.doc, l.state, token.str);
+                }
+                pdf_set_font(l.doc.pdf, "Times-Roman");
+                l.doc.font_size = font_size;
+                l.doc.is_bold = is_bold;
+                l.state.align = align;
             }break;
         }
     }

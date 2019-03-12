@@ -60,5 +60,3 @@ struct Buffer{
         free(data);
     }
 };
-
-Buffer<char> temp_str;

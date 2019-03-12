@@ -40,13 +40,6 @@ Token get_arg(Lexer* l){
 }
 
 
-void string_to_cstr(String str){
-    for(int i = 0; i < str.len; i ++){
-        temp_str.push(str.text[i]);
-    }
-    temp_str.push(0);
-}
-
 
 int get_new_linepos(Doc doc, char* text){
     int width = pdf_get_font_text_width(doc.pdf, doc.font_name, text, doc.font_size);
@@ -67,100 +60,32 @@ int get_new_linepos(Doc doc, char* text){
     }
 }
 
-
+int format_and_render(Doc doc, State state, String str){
+    int new_height = pdf_add_text_wrap(doc.pdf, NULL, str.text, str.len,
+                                       doc.font_size,
+                                       doc.margin_size,
+                                       state.line_pos - doc.font_size,
+                                       PDF_BLACK,
+                                       doc.width - 2*doc.margin_size,
+                                       state.align
+                                       );
+    return new_height;
+}
 
 void parse_identifier(Lexer* l, Token token){
-    
     if(match_token(token, "bold")){
         pdf_set_font(l->doc.pdf, "Times-Bold");
     }else if(match_token(token, "title")){
-        Token arg = l->peek_token();
-        if(is_arg(arg)){
-            l->get_token();
-            if(match_token(arg, "right")){
-                arg = l->peek_token();
-                int prev_font = l->doc.font_size;
-                if(is_arg(arg)){
-                    l->doc.font_size = str_to_int(arg.str);
-                    l->get_token();
-                    arg = l->peek_token();
-                }
-                int font = l->doc.font_size;
-                Token block = l->get_token();
-                string_to_cstr(block.str);
-                int new_height = pdf_add_text_wrap(l->doc.pdf, NULL, block.str.text, block.str.len, 
-                                                   l->doc.font_size,
-                                                   l->doc.margin_size,
-                                                   l->state.line_pos -font,
-                                                   PDF_BLACK,
-                                                   l->doc.width - 2*l->doc.margin_size,
-                                                   PDF_ALIGN_RIGHT
-                                                   );
-                l->state.line_pos -= new_height;
-                temp_str.reset();
-            }else if(match_token(arg, "left")){
-                arg = l->peek_token();
-                int prev_font = l->doc.font_size;
-                if(is_arg(arg)){
-                    l->doc.font_size = str_to_int(arg.str);
-                    l->get_token();
-                    arg = l->peek_token();
-                }
-                int font = l->doc.font_size;
-                Token block = l->get_token();
-                string_to_cstr(block.str);
-                int new_height = pdf_add_text_wrap(l->doc.pdf, NULL, block.str.text, block.str.len,
-                                                   l->doc.font_size,
-                                                   l->doc.margin_size,
-                                                   l->state.line_pos - font,
-                                                   PDF_BLACK,
-                                                   l->doc.width - 2*l->doc.margin_size,
-                                                   PDF_ALIGN_LEFT
-                                                   );
-                l->state.line_pos -= new_height;
-                temp_str.reset();
-                pdf_set_font(l->doc.pdf, "Times-Roman");
-            }else if(match_token(arg, "centre")){
-            }
-        }
     }
     else if(match_token(token, "right")){
         l->state.align = PDF_ALIGN_RIGHT;
     }else if (match_token(token, "left")){
         l->state.align = PDF_ALIGN_LEFT;
+    }else if (match_token(token, "centre")){
+        l->state.align = PDF_ALIGN_CENTER;
     }else if(match_token(token, "para")){
-        
-        int prev_font = l->doc.font_size;
-        Token arg = l->peek_token();
-        if(is_arg(arg)){
-            l->doc.font_size = str_to_int(arg.str);
-            l->get_token();
-        }
-        int font = l->doc.font_size;
-        Token block = l->get_token();
-        string_to_cstr(block.str);
-        int new_height = pdf_add_text_wrap(l->doc.pdf, NULL, block.str.text, block.str.len,
-                                           l->doc.font_size,
-                                           l->doc.margin_size,
-                                           l->state.line_pos - font,
-                                           PDF_BLACK,
-                                           l->doc.width - 2*l->doc.margin_size,
-                                           l->state.align
-                                           );
-        //l->state.line_pos -= get_new_linepos(l->doc, temp_str.data);
-        if(!l->state.is_ghost){
-            l->state.line_pos -= new_height;
-        }else{
-            l->state.is_ghost = false;
-        }
-        temp_str.reset();
-        pdf_set_font(l->doc.pdf, "Times-Roman");
     }else if(match_token(token, "margins")){
-        Token number = require_token(l, TOKEN_NUMBER);
-        l->doc.margin_size = str_to_int(number.str);
     }else if(match_token(token, "font")){
-        Token number = require_token(l, TOKEN_NUMBER);
-        l->doc.font_size = str_to_int(number.str);
     }
     else if(match_token(token, "ghost")){
         l->state.is_ghost = true;
@@ -176,5 +101,7 @@ void parse_identifier(Lexer* l, Token token){
                      lwidth, PDF_BLACK);
         l->state.line_pos -= lwidth*3;
     }
-    printf("\nLINEPOS: %d\n", l->state.line_pos);
+    else{
+        l->doc.font_size = str_to_int(token.str);
+    }
 }
