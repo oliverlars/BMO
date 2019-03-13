@@ -16,6 +16,16 @@ enum Token_Type: int{
     TOKEN_END
 };
 
+char* tokentypes[] = {
+    "Invalid",
+    "Fullstop",
+    "Backslash",
+    "Identifier",
+    "Number",
+    "String",
+    "End",
+};
+
 struct Token{
     String str;
     Token_Type type;
@@ -34,6 +44,9 @@ struct Lexer{
     
     State state;
     Doc doc;
+    int line = 1;
+    char* prev_line;
+    char* end_line;
 };
 
 

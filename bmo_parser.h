@@ -19,11 +19,14 @@ int str_to_int(String str){
     return value;
 }
 
+
 Token require_token(Lexer* l, Token_Type type){
     
     Token token = l->get_token();
     if(token.type != type){
-        printstr(token.str);
+        printf("Expectected %s, got %s \'%.*s\' on line %d", 
+               tokentypes[type], tokentypes[token.type],
+               token.str.len, token.str.text, l->line);
         l->error = true;
     }
     return token;
@@ -69,12 +72,18 @@ int format_and_render(Doc doc, State state, String str){
                                        doc.width - 2*doc.margin_size,
                                        state.align
                                        );
+    
     return new_height;
+}
+
+
+void point_to_error(Lexer* l){
+    printf("Line: %.*s", l->pos - l->prev_line, l->prev_line);
 }
 
 void parse_identifier(Lexer* l, Token token){
     if(match_token(token, "bold")){
-        pdf_set_font(l->doc.pdf, "Times-Bold");
+        pdf_set_font(l->doc.pdf, "Helvetica-Bold");
     }else if(match_token(token, "title")){
     }
     else if(match_token(token, "right")){
@@ -89,6 +98,8 @@ void parse_identifier(Lexer* l, Token token){
     }
     else if(match_token(token, "ghost")){
         l->state.is_ghost = true;
+    }else if(match_token(token, "shift")){
+        l->doc.margin_size += 100;
     }
     else if(match_token(token, "line")){
         int lwidth = 1;
@@ -102,6 +113,12 @@ void parse_identifier(Lexer* l, Token token){
         l->state.line_pos -= lwidth*3;
     }
     else{
-        l->doc.font_size = str_to_int(token.str);
+        if(token.type == TOKEN_ID){
+            l->error = true;
+            printf("Unexpected token on line %d\n", l->line);
+            point_to_error(l);
+        }else{
+            l->doc.font_size = str_to_int(token.str);
+        }
     }
 }

@@ -3,29 +3,49 @@
 .title.right.20
 "Curriculum Vitae"
 .bold
-.title.20 
+.title.16
 "PERSONAL DETAILS"
 .line
-.para.12
-"Birthdate:        December 11th 1999
-Address:           39 St. Bartholomews Court Riverside, Cambridge
-Phone:             (+44) 07472007901
-Email:             oliverlcruickshank@gmail.com
-Github:            www.github.com/oliverlars
+.ghost.para.12
+"Birthdate:"
+.shift
+"December 11th 1999"
+.ghost
+"Address:"
+.shift
+"39 St. Bartholomews Court, Riverside, Cambridge"
+.ghost
+"Phone:" 
+.shift            
+"(+44) 07472007901"
+.ghost
+"Email:"
+.shift             
+"oliverlcruickshank@gmail.com"
+.ghost
+"Github:"
+.shift
+"www.github.com/oliverlars
 "
-.bold.title.20
+.bold.title.16
+"PERSONAL STATEMENT"
+.line
+.para
+"I'm a first year undergraduate studying Computer Science at the University of York. I have a deep interest in low-level programming, including topics such as: compilers, virtual machines, programming micro-controllers and performant graphics. I am hoping to secure an internship this summer to further my interest in compilers and low-level programming to have the opportunity to learn from engineers with more experience and knowledge.
+"
+.bold.title.16
 "EDUCATION"
 .line
 .left.ghost.bold.para.12
 "Degree: University of York: Computer Science"
-.right.para 12
+.right.para.12
 "2018-2021
 "
 .bold.ghost.left.para.12
 "A levels: Hills Road Sixth Form Centre"
-.right .para 12
+.right .para.12
 "2016-2018"
-.left .para 12
+.left .para.12
 "Achieved grades: Maths B, Physics B, Computing B, Extended Project B
 "
 .ghost.bold.para.12
@@ -36,21 +56,25 @@ Github:            www.github.com/oliverlars
 "Achieved grades: A A A A A A A A A B
 "
 .bold
-.title.left.20
-"WORK EXPERIENCE"
-.line
-.bold .para.12
-"Assistant Graphics Engineer: Metail July 2015"
-.para 12
-"Helped improve the posing of the 3D human model, as well as shadowed an engineer
-getting an introduction to industry software engineering
-"
-.bold
-.title left.20
+.title left.16
 "PROJECTS"
 .line
+.ghost.bold.para.12
+"BMO, a language to typeset documents in C++"
+.right.para.12
+"2019"
+.left.para.12
+"I designed and built a language for typesetting documents. It is similar to groff, producing PDFs as output that are nicely formatted. My CV was formatted and rendered using BMO
+"
+.ghost.bold .para .12
+"Picoblaze 6 compiler and virtual machine in C"
+.right.para .12
+"2019"
+.left.para .12
+"The Picoblaze is a soft-core CPU designed to run on Xilinx FPGAs. I wrote a compiler that generates bytecode according to their specification and then implemented a virtual machine that runs the bytecode
+"
 .ghost.bold .para.12
-"Fast Embree based Pathtracer"
+"Fast Embree based Pathtracer in C"
 .right.para 12
 "2018"
 .left.para.12
@@ -59,52 +83,30 @@ pathtracer. I wrote a simple threadpool to do tile-based rendering, a fast OBJ l
 as progressive rendering using Win32
 "
 .ghost.bold .para.12
-"BMO, a language to typeset documents"
-.right.para.12
-"2019"
-.left.para.12
-"I designed and built a language for typesetting documents for reports and documents. It is similar to groff, producing PDFs as output that are nicely formatted. This CV was written in BMO
+"Minecraft-like world generator in C++"
+.right.para .12
+"2018"
+.left.para .12
+"Using OpenGL, I made a minecraft-like world which uses perlin noise to generate landscapes
 "
 .ghost.bold .para.12
-"Pathracer from scratch for my Computer Science coursework" 
+"Pathracer from scratch for my Computer Science coursework in C++" 
 .right.para.12
 "2017"
 .left.para.12
 "I wrote a pathtracer from scratch which used a KD-tree for fast search for possible triangle
 intersections among common features like depth of field, interpolated normals, and textures
 "
-.ghost.bold .para.12
-"Metaprogramming Tool for C"
-.right.para .12
-"2018"
-.left.para .12
-"I wanted some new features for C, without having to use macros so I made a tool to add the
-'defer' keyword like Go has. It uses the recursive descent parsing method.
-"
-.ghost.bold .para .12
-"Picoblaze 6 JIT compiler and virtual machine"
-.right.para .12
-"2019"
-.left.para .12
-"The Picoblaze is a soft-core CPU designed to run on Xilinx FPGAs. I wrote a compiler that generates bytecode according to their specification and then implemented a virtual machine that runs the bytecode
-"
-.bold
-.title.left.20 
+.bold.title.left.16 
 "SKILLS"
 .line
-.ghost.bold.para.12
-"Languages"
-.right.para.12
-"C, C++, Delphi, Rust, Python
-"
-.ghost.left.bold.para .12
-"Technologies"
-.right.para.12
-"OpenGL, Embree, SIMD, CUDA, Git
-"
-.ghost.left.bold .para .12
-"Sport" 
-.right.para.12 
-"Trialled for GB rowing in 2017 as well as competing nationally
-"
+.ghost.para.12
+"Languages:"
+.shift
+"C, C++, Python, Java, Pascal"
+.ghost
+"Technologies:"
+.shift
+"Opengl, Embree, SIMD"
+
 

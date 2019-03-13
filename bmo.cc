@@ -28,6 +28,7 @@ static char* open_source(char* filename){
     return result;
 }
 
+
 int main(int argc, char** args){
     
     bool parsing = true;
@@ -56,22 +57,22 @@ int main(int argc, char** args){
     l.doc.aspect = PDF_A4_WIDTH/PDF_A4_HEIGHT;
     l.doc.margin_size = 50;
     l.state.line_pos = PDF_A4_HEIGHT - l.doc.margin_size;
-    l.doc.font_name = "Times-Roman";
-    printf("height %d\n", l.state.line_pos);
+    l.doc.font_name = "Helvetica";
+    l.prev_line = source;
     pdf_set_font(l.doc.pdf,l.doc.font_name);
     pdf_append_page(l.doc.pdf);
     
     int font_size = 12;
     int is_bold = false;
-    char* font_name = "Times-Roman";
+    char* font_name = "Helvetica";
     int align = PDF_ALIGN_LEFT;
     int is_ghost = false;
     
-    while(parsing){
+    while(!l.error){
         Token token = l.get_token();
         switch(token.type){
             case TOKEN_END:{
-                parsing = false;
+                l.error = true;
             }break;
             case TOKEN_FULLSTOP:{
                 token = l.get_token();
@@ -82,16 +83,19 @@ int main(int argc, char** args){
             case TOKEN_ID:{
             }break;
             case TOKEN_STRING:{
+                int height;
                 if(l.state.is_ghost){
                     l.state.is_ghost = false;
-                    format_and_render(l.doc, l.state, token.str);
+                    height = format_and_render(l.doc, l.state, token.str);
                 }else{
-                    l.state.line_pos -= format_and_render(l.doc, l.state, token.str);
+                    height = format_and_render(l.doc, l.state, token.str);
+                    l.state.line_pos -= height;
                 }
-                pdf_set_font(l.doc.pdf, "Times-Roman");
+                pdf_set_font(l.doc.pdf, "Helvetica");
                 l.doc.font_size = font_size;
                 l.doc.is_bold = is_bold;
                 l.state.align = align;
+                l.doc.margin_size = 50;
             }break;
         }
     }

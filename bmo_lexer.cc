@@ -48,6 +48,10 @@ Token Lexer::get_token(){
     
     switch(c){
         case '\0':{token.type = TOKEN_END;}break;
+        case '\n':{
+            prev_line = pos;
+            line++;
+        }
         case '.':{token.type = TOKEN_FULLSTOP;}break;
         default:{
             token.type = TOKEN_ID;
@@ -56,6 +60,7 @@ Token Lexer::get_token(){
                 token.str.len = pos - token.str.text;
             }
             else if(is_digit(c)){
+                token.type = TOKEN_NUMBER;
                 while(is_digit(pos[0])){advance();}
                 token.str.len = pos - token.str.text;
             }
@@ -65,6 +70,7 @@ Token Lexer::get_token(){
                 token.str.text++;
                 while(pos[0] != '"'){
                     advance();
+                    if(is_whitespace(pos[0])) line++;
                 }
                 advance();
                 token.str.len = pos - token.str.text-1;
