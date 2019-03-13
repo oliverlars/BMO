@@ -23,3 +23,7 @@ A simple example program is shown below
 .para.bold.16.left
 "BOLD text"
 ```
+
+The output for the above is:
+
+![Output](output.jpg)
