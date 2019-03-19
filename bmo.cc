@@ -84,6 +84,7 @@ int main(int argc, char** args){
             }break;
             case TOKEN_STRING:{
                 int height;
+                
                 if(l.state.is_ghost){
                     l.state.is_ghost = false;
                     height = format_and_render(l.doc, l.state, token.str);

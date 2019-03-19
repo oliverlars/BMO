@@ -16,6 +16,7 @@ struct State{
     int line_pos = 0;
     bool is_ghost = false;
     int align;
+    bool is_table = false;
 };
 
 struct Doc {

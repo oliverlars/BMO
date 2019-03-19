@@ -36,6 +36,50 @@ void Lexer::advance(){
     pos++;
 }
 
+/*
+Token Lexer::get_token(){
+    eat_whitespace();
+    
+    char c = pos[0];
+    Token token = {};
+    token.str.text = pos;
+    token.str.len = 1;
+    advance();
+    
+    switch(c){
+        case '\0':{token.type = TOKEN_END;}break;
+        case '\n':{
+            prev_line = pos;
+            line++;
+        }
+        case '.':{token.type = TOKEN_FULLSTOP;}break;
+        default:{
+            token.type = TOKEN_ID;
+            if(is_alpha(c)){
+                while(is_alpha(pos[0])){advance();}
+                token.str.len = pos - token.str.text;
+            }
+            else if(is_digit(c)){
+                token.type = TOKEN_NUMBER;
+                while(is_digit(pos[0])){advance();}
+                token.str.len = pos - token.str.text;
+            }
+            else if(c == '"'){
+                token.type = TOKEN_STRING;
+                advance();
+                token.str.text++;
+                while(pos[0] != '"'){
+                    advance();
+                    if(is_whitespace(pos[0])) line++;
+                }
+                advance();
+                token.str.len = pos - token.str.text-1;
+            }
+        }
+    }
+    return token;
+}
+*/
 
 Token Lexer::get_token(){
     eat_whitespace();
