@@ -82,59 +82,60 @@ void point_to_error(Lexer* l){
 }
 
 
-int draw_table(Lexer* l, Doc doc, State state,int xdivs ,int ydivs,int lwidth){
+int draw_table(Lexer* l, int xdivs ,int ydivs,int lwidth){
     int deltay = 15;
     int height = deltay*ydivs;
-    int bottom = state.line_pos - height;
-    int start = state.line_pos;
+    int bottom = l->state.line_pos - height;
+    int start = l->state.line_pos;
     int deltax = 100;
     int width  = deltax*xdivs;
-    pdf_add_rectangle(doc.pdf, NULL,
-                      doc.width/2 - width/2,
-                      state.line_pos-height,
+    
+    Token arg;
+    int height_to_shift = 0;
+    for(int y = l->state.line_pos - deltay; y > bottom-deltay; y -= deltay){
+        for(int x = l->doc.width/2 - width/2; x < l->doc.width/2 + width/2; x += deltax){
+            arg = l->get_token();
+            height_to_shift +=pdf_add_text_wrap(l->doc.pdf, NULL,
+                                                arg.str.text,
+                                                arg.str.len,
+                                                l->doc.font_size,
+                                                x,
+                                                y +(deltay - l->doc.font_size),
+                                                PDF_BLACK,
+                                                deltax,
+                                                PDF_ALIGN_CENTER);
+        }
+    }
+    
+    pdf_add_rectangle(l->doc.pdf, NULL,
+                      l->doc.width/2 - width/2,
+                      l->state.line_pos-height,
                       width,
                       height,
                       lwidth,
                       PDF_BLACK);
-    
-    for(int y = state.line_pos - deltay; y > bottom; y -= deltay){
-        pdf_add_line(doc.pdf, NULL,
-                     doc.width/2 - width/2,
+    for(int y = l->state.line_pos - deltay; y > bottom; y -= deltay){
+        pdf_add_line(l->doc.pdf, NULL,
+                     l->doc.width/2 - width/2,
                      y,
-                     doc.width/2 + width/2,
+                     l->doc.width/2 + width/2,
                      y,
                      lwidth,
                      PDF_BLACK);
     }
     
     
-    for(int x = doc.width/2 - width/2; x < doc.width/2 + width/2; x += deltax){
-#if 0
-        pdf_add_line(doc.pdf, NULL,
+    for(int x = l->doc.width/2 - width/2; x < l->doc.width/2 + width/2; x += deltax){
+        pdf_add_line(l->doc.pdf, NULL,
                      x,
                      bottom,
                      x,
-                     state.line_pos,
+                     l->state.line_pos,
                      lwidth,
                      PDF_BLACK);
-#endif
     }
-    Token arg;
-    for(int y = state.line_pos - deltay; y > bottom-deltay; y -= deltay){
-        for(int x = doc.width/2 - width/2; x < doc.width/2 + width/2; x += deltax){
-            arg = l->get_token();
-            pdf_add_text_wrap(doc.pdf, NULL,
-                              arg.str.text,
-                              arg.str.len,
-                              doc.font_size,
-                              x,
-                              y +(deltay - doc.font_size),
-                              PDF_BLACK,
-                              deltax,
-                              PDF_ALIGN_CENTER);
-        }
-    }
-    return height;
+    
+    return height + height_to_shift;
 }
 
 void parse_identifier(Lexer* l, Token token){
@@ -142,11 +143,12 @@ void parse_identifier(Lexer* l, Token token){
         pdf_set_font(l->doc.pdf, "Helvetica-Bold");
     }else if(match_token(token, "title")){
     }else if(match_token(token, "table")){
+        
         int xdivs = str_to_int(require_token(l, TOKEN_NUMBER).str);
         int ydivs  = str_to_int(require_token(l, TOKEN_NUMBER).str);
         int lwidth = 1;
         l->state.line_pos -= lwidth*3;
-        l->state.line_pos -= draw_table(l, l->doc, l->state, xdivs, ydivs, lwidth);
+        l->state.line_pos -= draw_table(l,xdivs, ydivs, lwidth);
         
     }else if(match_token(token, "right")){
         l->state.align = PDF_ALIGN_RIGHT;

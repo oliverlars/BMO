@@ -28,22 +28,13 @@ static char* open_source(char* filename){
     return result;
 }
 
-
 int main(int argc, char** args){
-    
     bool parsing = true;
-    char test[] = ".font 14\
-.margins 50 \
-.title right 20\"Hello World.\" \
-.title right 30\"Bigger hello world\"\
-.line\
-.para 12 \
- \"Lorem ipsum dolor sit amet, \b consectetur adipiscing elit, sed do eiusmod tempor \b incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum\" \
-.title right 50 \"THIS HELLO, WORLD IS HUGE\"";
+
     char* source = open_source(args[1]);
     Lexer l;
     l.pos = source;
-    
+
     pdf_info info = {
         .creator = "",
         .title = "My document",
