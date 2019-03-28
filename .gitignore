@@ -1,0 +1,12 @@
+*
+!*.cc
+!*.h
+!README.md
+!test.bmo
+!bmo.exe
+!output.pdf
+!output.jpg
+!.gitignore
+!out/*
+!build.bat
+!buildpdf.bat
