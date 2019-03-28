@@ -1,5 +1,6 @@
 # A simple typesetter to format documents
 
+It uses the PDFGen library to output to pdf
 
 ## How to use
 
